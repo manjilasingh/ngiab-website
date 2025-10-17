@@ -7,7 +7,7 @@ export default defineConfig(() => {
   return {
     base: '/ngiab-website/',
     build: {
-      outDir: 'dist',
+      outDir: 'docs',
     },
     plugins: [
       react(),
