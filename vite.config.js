@@ -5,9 +5,9 @@ import path from "path"
 
 export default defineConfig(() => {
   return {
-    base: process.env.VITE_BASE_URL || '/',
+    base: '/ngiab-website/',
     build: {
-      outDir: 'build',
+      outDir: 'dist',
     },
     plugins: [
       react(),

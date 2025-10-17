@@ -1,0 +1,40 @@
+name: Sync main to prod
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: Configure Git
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          
+      - name: Sync main to prod
+        run: |
+          # Check if prod branch exists
+          if git show-ref --verify --quiet refs/remotes/origin/prod; then
+            # Switch to prod branch
+            git checkout -B prod origin/prod
+            # Merge main into prod
+            git merge origin/main --no-edit
+            # Push to prod
+            git push origin prod
+          else
+            # Create prod branch from main
+            git checkout -B prod
+            git push origin prod
+          fi
